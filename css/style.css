@@ -1,0 +1,9 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+.content {
+    height: 512px;
+    width: 288px;
+    margin: 0 auto;
+}
