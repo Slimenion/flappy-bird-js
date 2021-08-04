@@ -7,3 +7,7 @@ body {
     width: 288px;
     margin: 0 auto;
 }
+button {
+    width: 288px;
+    height: 30px;
+}

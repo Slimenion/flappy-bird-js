@@ -2,6 +2,10 @@
 var cvs = document.getElementById("canvas");
 var ctx = cvs.getContext("2d");
 
+if (localStorage.getItem("soundMute") == 1) {
+    document.getElementById("sound").innerHTML = "Включить звук";
+}
+
 //подключаем изоюражения для игры
 var bird = new Image();
 var bg = new Image();
@@ -35,6 +39,26 @@ if (localStorage.getItem("maxScore") == null) {
 //При нажатии на кнопку
 document.addEventListener("keyup", moveUp);
 document.addEventListener("click", moveUp);
+document.getElementById("info").addEventListener("click", info);
+document.getElementById("sound").addEventListener("click", sound);
+
+function sound() {
+    if (localStorage.getItem("soundMute") == null) {
+        localStorage.setItem("soundMute", 1);
+        document.getElementById("sound").innerHTML = "Включить звук";
+    } else {
+        localStorage.removeItem("soundMute");
+        document.getElementById("sound").innerHTML = "Выключить звук";
+    }
+}
+
+function info() {
+    alert(`Игра Flappy Bird
+    на компьютере можно использовать клавиатуру
+    на телефоне работает тач
+    Created by Bobrgames 2021
+    Все права не защищены.`);
+}
 
 //Делаем правильный рандом
 function getRandomIntInclusive(min, max) {
@@ -55,7 +79,7 @@ function getRandomIntInclusive(min, max) {
 
 function moveUp() {
     yPos -= 25;
-    fly.play();
+    if (localStorage.getItem("soundMute") == null) fly.play();
 }
 
 // Создаем трубы
@@ -108,7 +132,7 @@ function drawGame() {
             yPos + bird.height >= cvs.height - fg.height
         ) {
             if (flagGameLose == 0) {
-                gameLose.play();
+                if (localStorage.getItem("soundMute") == null) gameLose.play();
                 alert(
                     `Вы проиграли. \nСчет этой игры: ` +
                         score +
@@ -120,7 +144,7 @@ function drawGame() {
         }
         if (pipe[i].x == 5) {
             score++;
-            score_audio.play();
+            if (localStorage.getItem("soundMute") == null) score_audio.play();
             if (score > localStorage.getItem("maxScore")) {
                 localStorage.setItem("maxScore", score);
             }
