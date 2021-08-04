@@ -20,9 +20,11 @@ var gap = 90;
 //подключаем звуковые файлы
 var fly = new Audio();
 var score_audio = new Audio();
+var gameLose = new Audio();
 
 fly.src = "audio/fly.mp3";
 score_audio.src = "audio/score.mp3";
+gameLose.src = "audio/gameLose.mp3";
 
 //создаем рекорды
 var score = 0;
@@ -69,6 +71,8 @@ var xPos = 10;
 var yPos = 150;
 var grav = 1.5;
 
+var flagGameLose = 0;
+
 //Отрисовываем игру
 function drawGame() {
     ctx.drawImage(bg, 0, 0);
@@ -76,8 +80,9 @@ function drawGame() {
     for (var i = 0; i < pipe.length; i++) {
         ctx.drawImage(pipeUp, pipe[i].x, pipe[i].y);
         ctx.drawImage(pipeBottom, pipe[i].x, pipe[i].y + pipeUp.height + gap);
-
-        pipe[i].x--;
+        if (flagGameLose == 0) {
+            pipe[i].x--;
+        }
         var delta = -(
             Math.floor(Math.random() * (pipe[i].y + 30 - pipe[i].y - 10 + 1)) +
             pipe[i].y
@@ -91,7 +96,7 @@ function drawGame() {
         if (pipe[i].x == 125) {
             pipe.push({
                 x: cvs.clientWidth,
-                y: delta, //10 взмахов = 250px
+                y: delta,
             });
         }
 
@@ -102,7 +107,16 @@ function drawGame() {
                     yPos + bird.height >= pipe[i].y + pipeUp.height + gap)) ||
             yPos + bird.height >= cvs.height - fg.height
         ) {
-            location.reload(); //перезагрузка страницы
+            if (flagGameLose == 0) {
+                gameLose.play();
+                alert(
+                    `Вы проиграли. \nСчет этой игры: ` +
+                        score +
+                        `\nДля того чтобы попробовать снова перезагрузите страницу.`
+                );
+
+                flagGameLose = 1;
+            }
         }
         if (pipe[i].x == 5) {
             score++;
