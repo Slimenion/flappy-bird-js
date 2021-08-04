@@ -17,6 +17,13 @@ pipeBottom.src = "img/pipeBottom.png";
 
 var gap = 90;
 
+//подключаем звуковые файлы
+var fly = new Audio();
+var score_audio = new Audio();
+
+fly.src = "audio/fly.mp3";
+score_audio.src = "audio/score.mp3";
+
 //создаем рекорды
 var score = 0;
 if (localStorage.getItem("maxScore") == null) {
@@ -27,8 +34,26 @@ if (localStorage.getItem("maxScore") == null) {
 document.addEventListener("keyup", moveUp);
 document.addEventListener("click", moveUp);
 
+//Делаем правильный рандом
+function getRandomIntInclusive(min, max) {
+    if (max > 0) {
+        console.log("max: " + max);
+        return -20;
+    }
+    if (min < -240) {
+        console.log("min: " + min);
+        return -180;
+    }
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    var res = Math.floor(Math.random() * (max - min + 1)) + min;
+    console.log(res);
+    return res; //Максимум и минимум включаются
+}
+
 function moveUp() {
     yPos -= 25;
+    fly.play();
 }
 
 // Создаем трубы
@@ -53,11 +78,20 @@ function drawGame() {
         ctx.drawImage(pipeBottom, pipe[i].x, pipe[i].y + pipeUp.height + gap);
 
         pipe[i].x--;
-
+        var delta = -(
+            Math.floor(Math.random() * (pipe[i].y + 30 - pipe[i].y - 10 + 1)) +
+            pipe[i].y
+        );
+        if (delta > 0) {
+            delta -= 60;
+        }
+        if (delta < -200) {
+            delta += 60;
+        }
         if (pipe[i].x == 125) {
             pipe.push({
                 x: cvs.clientWidth,
-                y: Math.floor(Math.random() * pipeUp.height) - pipeUp.height,
+                y: delta, //10 взмахов = 250px
             });
         }
 
@@ -72,6 +106,7 @@ function drawGame() {
         }
         if (pipe[i].x == 5) {
             score++;
+            score_audio.play();
             if (score > localStorage.getItem("maxScore")) {
                 localStorage.setItem("maxScore", score);
             }
@@ -88,7 +123,7 @@ function drawGame() {
     ctx.fillText("Score: " + score, 10, cvs.height - 20);
     ctx.fillText(
         "MaxScore: " + localStorage.getItem("maxScore"),
-        150,
+        140,
         cvs.height - 20
     );
 
