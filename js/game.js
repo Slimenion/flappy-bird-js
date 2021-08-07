@@ -32,8 +32,8 @@ gameLose.src = "audio/gameLose.mp3";
 
 //создаем рекорды
 var score = 0;
-if (localStorage.getItem("maxScore") == null) {
-    localStorage.setItem("maxScore", 0);
+if (localStorage.getItem("BobrGamesFlappyBirdMaxScore") == null) {
+    localStorage.setItem("BobrGamesFlappyBirdMaxScore", 0);
 }
 
 //При нажатии на кнопку
@@ -145,8 +145,8 @@ function drawGame() {
         if (pipe[i].x == 5) {
             score++;
             if (localStorage.getItem("soundMute") == null) score_audio.play();
-            if (score > localStorage.getItem("maxScore")) {
-                localStorage.setItem("maxScore", score);
+            if (score > localStorage.getItem("BobrGamesFlappyBirdMaxScore")) {
+                localStorage.setItem("BobrGamesFlappyBirdMaxScore", score);
             }
         }
     }
@@ -160,7 +160,8 @@ function drawGame() {
     ctx.font = "24px Arial";
     ctx.fillText("Score: " + score, 10, cvs.height - 20);
     ctx.fillText(
-        "MaxScore: " + localStorage.getItem("maxScore"),
+        "BobrGamesFlappyBirdMaxScore: " +
+            localStorage.getItem("BobrGamesFlappyBirdMaxScore"),
         140,
         cvs.height - 20
     );
