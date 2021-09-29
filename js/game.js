@@ -1,12 +1,12 @@
-//подключаем canvas
+//connect the canvas
 var cvs = document.getElementById("canvas");
 var ctx = cvs.getContext("2d");
 
 if (localStorage.getItem("soundMute") == 1) {
-    document.getElementById("sound").innerHTML = "Включить звук";
+    document.getElementById("sound").innerHTML = "Turn on sound";
 }
 
-//подключаем изоюражения для игры
+//connect images for the game
 var bird = new Image();
 var bg = new Image();
 var fg = new Image();
@@ -21,7 +21,7 @@ pipeBottom.src = "img/pipeBottom.png";
 
 var gap = 90;
 
-//подключаем звуковые файлы
+//connect sound files
 var fly = new Audio();
 var score_audio = new Audio();
 var gameLose = new Audio();
@@ -30,13 +30,13 @@ fly.src = "audio/fly.mp3";
 score_audio.src = "audio/score.mp3";
 gameLose.src = "audio/gameLose.mp3";
 
-//создаем рекорды
+//create records
 var score = 0;
 if (localStorage.getItem("BobrGamesFlappyBirdMaxScore") == null) {
     localStorage.setItem("BobrGamesFlappyBirdMaxScore", 0);
 }
 
-//При нажатии на кнопку
+//By pressing the button
 document.addEventListener("keyup", moveUp);
 document.addEventListener("click", moveUp);
 document.getElementById("info").addEventListener("click", info);
@@ -45,22 +45,22 @@ document.getElementById("sound").addEventListener("click", sound);
 function sound() {
     if (localStorage.getItem("soundMute") == null) {
         localStorage.setItem("soundMute", 1);
-        document.getElementById("sound").innerHTML = "Включить звук";
+        document.getElementById("sound").innerHTML = "Turn on sound";
     } else {
         localStorage.removeItem("soundMute");
-        document.getElementById("sound").innerHTML = "Выключить звук";
+        document.getElementById("sound").innerHTML = "Turn off the sound";
     }
 }
 
 function info() {
-    alert(`Игра Flappy Bird
-    на компьютере можно использовать клавиатуру
-    на телефоне работает тач
+    alert(`Flappy Bird game
+    the keyboard can be used on the computer
+    the touch works on the phone
     Created by Bobrgames 2021
-    Все права не защищены.`);
+    All rights not reserved.`);
 }
 
-//Делаем правильный рандом
+//Making the right random
 function getRandomIntInclusive(min, max) {
     if (max > 0) {
         console.log("max: " + max);
@@ -82,7 +82,7 @@ function moveUp() {
     if (localStorage.getItem("soundMute") == null) fly.play();
 }
 
-// Создаем трубы
+//Create pipes
 var pipe = [];
 
 pipe[0] = {
@@ -90,14 +90,14 @@ pipe[0] = {
     y: 0,
 };
 
-//Позиция птички
+//Bird position
 var xPos = 10;
 var yPos = 150;
 var grav = 1.5;
 
 var flagGameLose = 0;
 
-//Отрисовываем игру
+//Rendering the game
 function drawGame() {
     ctx.drawImage(bg, 0, 0);
 
@@ -134,9 +134,9 @@ function drawGame() {
             if (flagGameLose == 0) {
                 if (localStorage.getItem("soundMute") == null) gameLose.play();
                 alert(
-                    `Вы проиграли. \nСчет этой игры: ` +
+                    `You lose. \n This game score: ` +
                         score +
-                        `\nДля того чтобы попробовать снова перезагрузите страницу.`
+                        `\nTo try again, reload the page.`
                 );
 
                 flagGameLose = 1;
@@ -160,7 +160,7 @@ function drawGame() {
     ctx.font = "24px Arial";
     ctx.fillText("Score: " + score, 10, cvs.height - 20);
     ctx.fillText(
-        "BobrGamesFlappyBirdMaxScore: " +
+        "MaxScore: " +
             localStorage.getItem("BobrGamesFlappyBirdMaxScore"),
         140,
         cvs.height - 20
