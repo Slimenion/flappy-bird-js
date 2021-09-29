@@ -1,5 +1,5 @@
 # Flappy bird
 
-### В разработке использован только чистый js. Можно использовать тач и клавиатуру. Информация о выборе вкл/выкл звуки и максимальный рекорд сохраняются на устройстве при помощи localStorage в js.
+### Js was used in development. Touch and keyboard can be used. Information about the choice of on / off sounds and the maximum record are saved on the device using localStorage in js.
 
-[Ссылка на реализацию](https://slimenion.github.io/flappy-bird-js/)
+[Link to the game](https://slimenion.github.io/flappy-bird-js/)
